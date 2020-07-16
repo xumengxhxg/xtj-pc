@@ -52,8 +52,8 @@
         </el-table-column>
         <el-table-column prop="date" label="操作">
           <template slot-scope="scope">
-            <el-button type="text" v-if="scope.row.isAppointed === 0 && scope.row.serviceStatus === 0" @click="handEnd">手动结束</el-button>
-            <el-button type="text" v-if="scope.row.serviceStatus === 0">删除</el-button>
+            <el-button type="text" v-if="scope.row.isAppointed === 0 && scope.row.serviceStatus === 0" @click="handEnd(scope.row)">手动结束</el-button>
+            <el-button type="text" v-if="scope.row.serviceStatus === 0" @click="deleteRow(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -66,7 +66,7 @@
 
 <script>
 import { formatDate } from '@/utils/global'
-import { getServiceList, getServiceType } from '@/api/serviceManagement'
+import { getServiceList, getServiceType, handEnd } from '@/api/serviceManagement'
 export default {
   data () {
     return {
@@ -118,16 +118,48 @@ export default {
       }).catch()
     },
     // 手动结束
-    handEnd() {
+    handEnd(row) {
       this.$confirm('是否结束当前勤务任务?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        let data = row
+        handEnd(data).then(() => {
+          this.$message({
+            type: 'success',
+            message: '成功!'
+          })
+          this.getServiceList()
+        }).catch()
+      }).catch(() => {
         this.$message({
-          type: 'success',
-          message: '成功!'
-        })
+          type: 'info',
+          message: '已取消'
+        })      
+      })
+    },
+    // 删除
+    deleteRow(id) {
+      this.$confirm('确定删除当前勤务任务吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        handEnd(id).then((res) => {
+          if (res.status === 200) {
+            this.$message({
+              type: 'success',
+              message: '成功!'
+            })
+            this.getServiceList()
+          } else {
+            this.$message({
+              type: 'warning',
+              message: res.msg
+            })
+          }
+        }).catch()
       }).catch(() => {
         this.$message({
           type: 'info',

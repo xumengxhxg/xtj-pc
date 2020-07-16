@@ -29,7 +29,7 @@
       <div class="right-list wp-80 ph20">
         <div class="top clearfix">
           <div class="ft-size-21 pull-left">
-            苏州市公安局姑苏分局
+            {{currentNode.name}}
           </div>
           <div class="pull-right">
             <el-button type="primary" size="medium" @click="downloadUserInfo">导出</el-button>

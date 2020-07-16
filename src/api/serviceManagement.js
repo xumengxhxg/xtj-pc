@@ -53,3 +53,12 @@ export function getServicePersonCount(params) {
       params: params
   })
 }
+
+// 手动结束
+export function handEnd(data) {
+  return request({
+      url: '/service',
+      method: 'put',
+      data: data
+  })
+}

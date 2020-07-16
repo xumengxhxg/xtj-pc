@@ -45,7 +45,7 @@
               <el-button size="small" type="primary" class="ml5">导出</el-button>
             </div>
             <div class="pull-right">
-              <el-button type="text">刷新</el-button>
+              <el-button type="text" @click="getDeptList">刷新</el-button>
             </div>
           </div>
           <div>
@@ -58,24 +58,15 @@
               <el-table-column v-for="(item, index) in serviceType" :key="index" :label="item.chinese">
                 <template slot-scope="scope">
                   <span v-for="(service, i) in scope.row.countInfo" :key="i">
-                    <span v-if="service.serviceType === item.id">
+                    <span v-if="service.serviceType == item.id">
                       {{service.outNum}}次/{{service.personNum}}人
                     </span>
                   </span>
                 </template>
               </el-table-column>
-              <!-- <el-table-column prop="beginTime" label="安防"></el-table-column>
-              <el-table-column prop="endTime" label="疫情防控"></el-table-column>
-              <el-table-column prop="serviceTypeZw" label="安保"></el-table-column>
-              <el-table-column prop="beginTime" label="协助其他部门"></el-table-column>
-              <el-table-column prop="endTime" label="城管整治"></el-table-column>
-              <el-table-column prop="serviceTypeZw" label="外出学习"></el-table-column>
-              <el-table-column prop="beginTime" label="维稳"></el-table-column>
-              <el-table-column prop="endTime" label="武装巡逻"></el-table-column>
-              <el-table-column prop="serviceTypeZw" label="出差"></el-table-column> -->
             </el-table>
             <div class="clearfix">
-              <el-pagination background layout="prev, pager, next" :total="total" class="pull-right mt10" @current-change='currentChange'></el-pagination>
+              <el-pagination background layout="prev, pager, next" :page-size="pageSize"  :total="total" class="pull-right mt10" @current-change='currentChange'></el-pagination>
             </div>
           </div>
         </div>
@@ -107,9 +98,15 @@
        <div class="pull-right" style="width: 75%;">
          <div>
            <div class="clearfix ph10">
-             <div class="pull-left"></div>
+             <div class="pull-left pt10">
+               <span v-if="currentNode.name">
+                  <span class="name">{{currentNode.name}}</span>
+                  <el-tag size="small" v-if="currentNode.dept">{{currentNode.dept}}</el-tag>
+               </span>
+               <span v-else class="name">请选择</span>
+             </div>
              <div class="pull-right">
-               <el-button type="text">刷新</el-button>
+               <el-button type="text" @click="refresh">刷新</el-button>
              </div>
            </div>
            <div>
@@ -117,14 +114,14 @@
               <el-tab-pane label="个人统计" name="first">
                 <div class="pt20 ph20">
                   <el-row>
-                    <el-col v-for="(item, index) in serviceType" :key="index">
+                    <el-col :span="8" v-for="(item, index) in serviceType" :key="index" class="mb10">
                       <span>
                         {{item.chinese}}:
                       </span>
                       <span>
-                        <span v-for="(info, i) in countInfo" :key="i">
-                          <span v-if="info.serviceType === item.id">
-                            {{info.outNum}}次
+                        <span v-for="(inf, i) in info" :key="i">
+                          <span v-if="inf.serviceType === item.id">
+                            {{inf.outNum}}次
                           </span>
                           <span v-else>-</span>
                         </span>
@@ -136,14 +133,28 @@
               <el-tab-pane label="出勤详细" name="second">
                 <div class="ph20">
                   <el-table :data="serviceList" style="width: 100%">
-                    <el-table-column prop="chargeName" label="负责人"></el-table-column>
-                    <el-table-column prop="chargeMobile" label="负责人电话"></el-table-column>
-                    <el-table-column prop="serviceTypeZw" label="勤务类型"></el-table-column>
-                    <el-table-column prop="number" label="人数"></el-table-column>
-                    <el-table-column prop="beginTime" label="开始时间"></el-table-column>
-                    <el-table-column prop="endTime" label="结束时间"></el-table-column>
-                    <el-table-column prop="place" label="地点"></el-table-column>
-                    <el-table-column prop="teamMemberName" label="出勤队员姓名"></el-table-column>
+                    <el-table-column prop="chargeName" label="负责人" width="80"></el-table-column>
+                    <el-table-column prop="chargeMobile" label="负责人电话" width="120"></el-table-column>
+                    <el-table-column prop="serviceTypeZw" label="勤务类型" width="90"></el-table-column>
+                    <el-table-column prop="number" label="人数" width="60"></el-table-column>
+                    <el-table-column prop="beginTime" label="开始时间" width="100">
+                      <template slot-scope="scope">
+                        {{scope.row.beginTime.slice(0, scope.row.beginTime.lastIndexOf(':'))}}
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="endTime" label="结束时间" width="100">
+                      <template slot-scope="scope">
+                        {{scope.row.endTime.slice(0, scope.row.endTime.lastIndexOf(':'))}}
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="place" label="地点" width="100"></el-table-column>
+                    <el-table-column prop="teamMemberName" label="出勤队员姓名">
+                      <template slot-scope="scope">
+                        <el-tooltip class="item" effect="dark" :content="scope.row.teamMemberName" placement="top">
+                          <span class="ellipsis">{{ scope.row.teamMemberName }}</span>
+                        </el-tooltip>
+                      </template>
+                    </el-table-column>
                   </el-table>
                 </div>
               </el-tab-pane>
@@ -157,6 +168,7 @@
 
 <script>
 import { formatDate } from '@/utils/global'
+import { getPersonnelTree } from '@/api/personnel'
 import { getUnitList, getDeptList, getServiceType, getServicePersonCount, getServiceUser } from '@/api/serviceManagement'
 export default {
   data () {
@@ -192,9 +204,16 @@ export default {
     let end = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + endDte
     // 设置默认时间段
     this.date = [start, end]
-    console.log(this.date)
+    this.getDeptList()
+    this.getUnitList()
+    this.getServiceType()
+    this.getTree()
   },
   methods: {
+    refresh() {
+      this.getServicePersonCount()
+      this.getServiceUser()
+    },
     // 大队统计
     getUnitList() {
       let params = {
@@ -214,16 +233,16 @@ export default {
         avgRows: this.pageSize
       }
       getDeptList(params).then((res) => {
-        this.deptList = res.response
+        this.deptList = res.response.items
         this.total = res.response.total
       }).catch()
     },
     // 个人统计
     getServicePersonCount() {
       let params = {
-        beginDate: this.date[0],
-        endDate: this.date[1],
-        userid: this.currentNode.userid
+        beginDate: formatDate(this.date[0]),
+        endDate: formatDate(this.date[1]),
+        userId: this.currentNode.userid
       }
       getServicePersonCount(params).then((res) => {
         this.info = res.response[0].countInfo
@@ -232,12 +251,14 @@ export default {
     // 出勤明细
     getServiceUser() {
       let params = {
-        beginDate: this.date[0],
-        endDate: this.date[1],
+        beginDate: formatDate(this.date[0]),
+        endDate: formatDate(this.date[1]),
         userid: this.currentNode.userid
       }
       getServiceUser(params).then((res) => {
-        this.serviceList = [res.response[0].service]
+        if (res.response[0] && res.response[0].service) {
+          this.serviceList = [res.response[0].service]
+        }
       }).catch()
     },
     // 获取勤务类型
@@ -247,6 +268,39 @@ export default {
       }
       getServiceType(params).then((res) => {
         this.serviceType = res.response
+      }).catch()
+    },
+    getTree() {
+      let params = {
+        rootId: 1
+      }
+      getPersonnelTree(params).then((res) => {
+        this.treeData = [res.response]
+        this.treeData[0].subDepartment.push(...this.treeData[0].users) // 一级目录
+        if (this.treeData[0].subDepartment) {
+          this.treeData[0].subDepartment.forEach((item) => {
+            if (item.subDepartment) {
+              item.subDepartment.push(...item.users) // 二级目录
+              if (item.subDepartment && item.subDepartment.length > 0) {
+                item.subDepartment.forEach((sub) => {
+                  if(sub.users && sub.users.length > 0) {
+                    sub['subDepartment'] = [] // 三级目录
+                    sub.subDepartment.push(...sub.users)
+                  }
+                })
+              }
+            } else {
+              item.subDepartment = []
+              item.subDepartment.push(...item.users) // 二级目录
+              // item.subDepartment.forEach((sub) => {
+              //   if(sub.users && sub.users.length > 0) {
+              //     sub['subDepartment'] = [] // 三级目录
+              //     sub.subDepartment.push(...sub.users)
+              //   }
+              // })
+            }
+          })
+        }
       }).catch()
     },
     // 区队统计分页
@@ -261,6 +315,8 @@ export default {
     handleNodeClick(node) {
       if (node.userid) {
         this.currentNode = node
+        this.getServicePersonCount()
+        this.getServiceUser()
         console.log(node)
       }
     }
@@ -281,5 +337,10 @@ export default {
 }
 .el-tabs .el-tabs--top .el-tabs__header {
   padding: 20px 0px 0px !important;
+}
+.name {
+  font-size: 20px;
+  margin-right: 10px;
+  padding-top: 5px;
 }
 </style>
