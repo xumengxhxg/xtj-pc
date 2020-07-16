@@ -1,8 +1,8 @@
 <!-- 智能人事 -->
 <template>
-  <div class="bg-white p20" style="height: 100%">
-    <p class="title">智能人事</p>
-    <el-tabs v-model="activeName" @tab-click="handleClick" class="mt10">
+  <div class="bg-white" style="height: 100%">
+    <p class="title ph20 pt20">智能人事</p>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="内部通讯录" name="first">
         <address-book></address-book>
       </el-tab-pane>
@@ -24,6 +24,7 @@ export default {
   },
   data () {
     return {
+      activeName: 'first'
     }
   },
   methods: {

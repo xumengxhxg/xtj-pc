@@ -7,11 +7,11 @@
         <el-menu
           :default-active="$route.path"
           class="el-menu-vertical-demo"
-          background-color="#fff"
           text-color="rgba(0, 0, 0, 1)"
           active-text-color="#fff"
           router>
           <el-menu-item index="/home">
+           <i class="el-icon-location"></i>
             <span slot="title">首页</span>
           </el-menu-item>
           <el-menu-item index="/rota" >
@@ -70,7 +70,7 @@ export default {
   height: 60px;
   line-height: 60px;
   text-align: left;
-  background: #409EFF;
+  background: #3a5ea6;
   color: #fff;
   font-size: 20px;
 }
