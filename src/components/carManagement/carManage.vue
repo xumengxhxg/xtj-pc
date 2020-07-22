@@ -17,52 +17,56 @@
         </ul>
       </div>
       <div class="right-table">
-        <el-table
-          :data="carList"
-          style="width: 100%">
-          <el-table-column prop="date" label="编号" >
-            <template slot-scope="scope">
-              {{scope.$index + 1}}
-            </template>
-          </el-table-column>
-          <el-table-column prop="plateNumber" label="车牌号" width="100"></el-table-column>
-          <el-table-column prop="number" label="核载" ></el-table-column>
-          <el-table-column prop="carType" label="车辆类型" ></el-table-column>
-          <el-table-column prop="carCardType" label="驾驶证" ></el-table-column>
-          <el-table-column prop="carCheckTime" label="审验时间" width="130">
-            <template slot-scope="scope">
-              {{transformBirthTime(scope.row.carCheckTime)}}
-            </template>
-          </el-table-column>
-          <el-table-column label="状态" align="center">
-            <template slot-scope="scope">
-              <el-tag size="small">{{scope.row.status}}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column label="是否展示" width="170" align="center">
-            <template slot-scope="scope">
-              <el-switch
-                style="display: block"
-                v-model="scope.row.showStatus"
-                inactive-text="隐藏"
-                active-text="显示">
-              </el-switch>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" width="170" align="center">
-            <template>
-              <el-dropdown size="small" split-button type="primary">
-                查看详情
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>从状态显示移除</el-dropdown-item>
-                  <el-dropdown-item>编辑</el-dropdown-item>
-                  <el-dropdown-item>删除</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+        <div>
+          <el-table
+            :data="carList"
+            style="width: 100%">
+            <el-table-column prop="date" label="编号" >
+              <template slot-scope="scope">
+                {{scope.$index + 1}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="plateNumber" label="车牌号" width="100"></el-table-column>
+            <el-table-column prop="number" label="核载" ></el-table-column>
+            <el-table-column prop="carType" label="车辆类型" ></el-table-column>
+            <el-table-column prop="carCardType" label="驾驶证" ></el-table-column>
+            <el-table-column prop="carCheckTime" label="审验时间" width="130">
+              <template slot-scope="scope">
+                {{transformBirthTime(scope.row.carCheckTime)}}
+              </template>
+            </el-table-column>
+            <el-table-column label="状态" align="center">
+              <template slot-scope="scope">
+                <el-tag size="small">{{scope.row.status}}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="是否展示" width="170" align="center">
+              <template slot-scope="scope">
+                <el-switch
+                  style="display: block"
+                  v-model="scope.row.showStatus"
+                  inactive-text="隐藏"
+                  active-text="显示">
+                </el-switch>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="170" align="center">
+              <template>
+                <el-dropdown size="small" split-button type="primary">
+                  查看详情
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>从状态显示移除</el-dropdown-item>
+                    <el-dropdown-item>编辑</el-dropdown-item>
+                    <el-dropdown-item>删除</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div class="pull-right p10">
+          <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+        </div>
       </div>
     </div>
     <div v-if="showAddCarDialog">

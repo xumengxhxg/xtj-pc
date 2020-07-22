@@ -119,7 +119,9 @@
         </div>
       </div>
     </div>
-    <leave :show='showLeaveDialog' @updateShow='updateShow'></leave>
+    <div>
+      <leave :show='showLeaveDialog' @updateShow='updateDialogShow'></leave>
+    </div>
   </div>
 </template>
 
@@ -156,7 +158,7 @@ export default {
     this.getPersonnelTree()
     // this.$nextTick(() => {
       setTimeout(() => {
-        this.currentNode = this.$refs.tree.getCurrentNode()
+        // this.currentNode = this.$refs.tree.getCurrentNode()
       }, 1000)
     // })
   },
@@ -173,9 +175,9 @@ export default {
   },
   methods: {
     leave() {
-      this.showLeaveDialog =true
+      this.showLeaveDialog = true
     },
-    updateShow(val) {
+    updateDialogShow(val) {
       this.showLeaveDialog = val
     },
     getleaveCount () {

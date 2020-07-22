@@ -11,7 +11,6 @@
           active-text-color="#fff"
           router>
           <el-menu-item index="/home">
-           <i class="el-icon-location"></i>
             <span slot="title">首页</span>
           </el-menu-item>
           <el-menu-item index="/rota" >

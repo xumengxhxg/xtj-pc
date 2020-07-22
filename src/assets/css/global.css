@@ -65,7 +65,7 @@ p {
 }
 .ph10 {
   padding-left: 10px;
-  padding-right: 20px;
+  padding-right: 10px;
 }
 .ph30 {
   padding: 0px 30px;
@@ -88,11 +88,20 @@ p {
 .pt20 {
   padding-top: 20px;
 }
+.pb20 {
+  padding-bottom: 20px;
+}
 .ml5 {
   margin-left: 5px !important;
 }
 .mb10 {
   margin-bottom: 10px;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mr20 {
+  margin-right: 20px;
 }
 .wp-32 {
   width: 20%;
@@ -132,7 +141,7 @@ p {
   text-overflow: ellipsis;
 }
 .el-tabs__header {
-  padding: 20px 20px 0px !important;
+  padding: 5px 20px 0px !important;
   margin: 0px !important;
 }
 .ant-row-flex {
@@ -144,4 +153,7 @@ p {
 }
 .ft-16 {
   font-size: 16px;
+}
+.wp-100 {
+  width: 100%;
 }
