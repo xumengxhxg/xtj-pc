@@ -6,12 +6,12 @@
           <div class="systemHeaderTitle">
             系统设置
           </div>
-          <el-menu router :default-active="indexHtml" class="el-menu-demo" mode="horizontal" >
+          <el-menu router :default-active="indexHtml" class="el-menu-vertical-demo" mode="horizontal" >
             <el-menu-item  v-for="(item,key) in a_list" :key="key"  @click="index_a=key" :class="{active_a:index_a===key}" :index="item.path">{{item.text}}</el-menu-item>
           </el-menu>
         </div>
     </div>
-    <el-main class="main">
+    <el-main class="main" style="background-color: #fff;">
       <keep-alive>
         <router-view></router-view>
       </keep-alive>
