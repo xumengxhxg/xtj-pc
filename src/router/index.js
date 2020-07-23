@@ -14,6 +14,10 @@ import performanceManagement from '../views/performanceManagement.vue'
 import bodySkills from '../views/bodySkills.vue'
 import equipmentManagement from '../views/equipmentManagement.vue'
 import systemSetting from '../views/systemSetting.vue'
+import userManagement from '../views/systemComponents/userManagement.vue'
+import userCode from '../views/systemComponents/codeConfig.vue'
+import otherConfig from '../views/systemComponents/otherConfig.vue'
+import opertionLog from '../views/systemComponents/operationLog.vue'
 
 export default new Router({
     routes: [
@@ -69,7 +73,30 @@ export default new Router({
                 }, {
                     path: '/systemSetting',
                     // component: () => import('../views/systemSetting.vue') // 系统设置
-                    component: systemSetting
+                    component: systemSetting,
+                    redirect: '/systemSetting/user',
+                    children:[
+                        {
+                            path:'/systemSetting/user',
+                            component:userManagement,
+                           // component: () => import('../views/systemComponents/userManagement.vue') // 用户管理
+                        },
+                        {
+                            path:'/systemSetting/code',
+                            component:userCode
+                           // component: () => import('../views/systemComponents/codeConfig.vue') // 字典配置
+                        },
+                        {
+                            path:'/systemSetting/other',
+                            component:otherConfig
+                           // component: () => import('../views/systemComponents/otherConfig.vue') // 其他设置
+                        },
+                        {
+                            path:'/systemSetting/operte',
+                            component:opertionLog,
+                           // component: () => import('../views/systemComponents/opertionLog.vue') // 操作日志
+                        }
+                    ]
                 }
             ]
         }
