@@ -82,13 +82,28 @@
             :visible.sync="drawer"
             :size="'300px'"
             >
-            
-            <span>我来啦!</span>
+            <div>
+                <el-form   label-width="80px" :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+                    <el-form-item label="姓名" prop="name">
+                      <el-input v-model="ruleForm.name" style="width: 200px;"></el-input>
+                    </el-form-item>
+                    <el-form-item label="警号" prop="No">
+                        <el-input v-model="ruleForm.No" style="width: 200px;"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="password">
+                        <el-input v-model="ruleForm.password" show-password style="width: 200px;"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button type="primary" @click="submitForm('ruleForm')" :loading="submitBtn">提交</el-button>
+                      <el-button>取消</el-button>
+                    </el-form-item>
+                  </el-form>
+            </div>
         </el-drawer>
     </div>
 </template>
 <script>
-import { getUserTableList } from '@/api/systemConfig'
+import { getUserTableList, addTableData } from '@/api/systemConfig'
 export default {
     data(){
         return {
@@ -105,38 +120,74 @@ export default {
             },
             drawer:false,
             type:0,// 1添加  还是 2修改
+            ruleForm: {
+                name: '',
+                No: '',
+                password:''
+            },
+            submitBtn:false,
+            rules: {
+                name: [
+                    { required: true, message: '请输入姓名', trigger: 'blur' },
+                ],
+                No: [
+                    { required: true, message: '请输入警号', trigger: 'change' }
+                ],
+                password: [
+                    {  required: true, message: '请输入密码', trigger: 'change' }
+                ]
+                }
         }
     },
     mounted() {
         this.initTableList() //初始化table
     },
     methods: {
-        changeData(num, obj){
+        changeData(num, obj){ //添加、修改
          this.type=num;
          this.drawer=true;
         },
-        initTableList(){
+        initTableList(){ //初始化table
             let params=this.searchObj;
             // console.log(this.getUserTableList)
             getUserTableList(params).then((res) => {
             this.tableObj = res.response
           }).catch()
         },
-        handleSizeChange(value){
+        handleSizeChange(value){ //改变pagesize
            this.searchObj.pagesize=value
            this.initTableList()
         },
-        handleCurrentChange(value){
+        handleCurrentChange(value){ //改变当前页
             this.searchObj.page=value
             this.initTableList()
-        }
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                addTableData(this.ruleForm).then((res) => {
+                    if(res.status===200){
+                        this.initTableList()
+                        this.drawer=false;
+                    }else{
+                        this.$message.error(res.response);
+                    }
+                    }).catch()
+                } else {
+                this.submitBtn=true
+                setTimeout(() => {
+                this.submitBtn=false
+                }, 500);
+                return false;
+                }
+            });
+        },
+        resetForm(formName) {
+         this.$refs[formName].resetFields();
+        },
     },
 }
 </script>
 <style  >
- :focus{
- 
- outline:0;
-}
 
 </style>
