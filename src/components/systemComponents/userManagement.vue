@@ -7,7 +7,7 @@
                 </el-menu>
             </el-col>
             <el-col :span="20">
-                <el-main class=" blockmain" >
+                <el-main style="padding-left: 0px;" >
                     <keep-alive>
                         <router-view></router-view>
                     </keep-alive>
