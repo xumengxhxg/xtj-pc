@@ -2,13 +2,6 @@
     <div class="main_block">
         <el-row :gutter="20">
             <el-col :span="4">
-                <!-- <ul>
-                    <li :class="{checkMenuItem:index===indexHtmlx}" v-for="(item, index) in side_list" :key="index" @click="indexHtmlx=index">
-                        <router-link :to="item.path">
-                            {{item.name}}
-                        </router-link>
-                    </li>
-                </ul> -->
                 <el-menu router :default-active="indexHtmlx" class="el-menu-demo blockmenu"  style="width: 200px!important;">
                     <el-menu-item  v-for="(item,key) in side_list" :key="key"    :index="item.path">{{item.text}}</el-menu-item>
                 </el-menu>

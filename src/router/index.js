@@ -14,10 +14,13 @@ import performanceManagement from '../views/performanceManagement.vue'
 import bodySkills from '../views/bodySkills.vue'
 import equipmentManagement from '../views/equipmentManagement.vue'
 import systemSetting from '../views/systemSetting.vue'
-import userManagement from '../views/systemComponents/userManagement.vue'
-import userCode from '../views/systemComponents/codeConfig.vue'
-import otherConfig from '../views/systemComponents/otherConfig.vue'
-import opertionLog from '../views/systemComponents/operationLog.vue'
+import userManagement from '../components/systemComponents/userManagement.vue'
+import userCode from '../components/systemComponents/codeConfig.vue'
+import otherConfig from '../components/systemComponents/otherConfig.vue'
+import opertionLog from '../components/systemComponents/operationLog.vue'
+import userUser from '../components/systemComponents/userComponents/user.vue'
+import userRole from '../components/systemComponents/userComponents/role.vue'
+import userMenu from '../components/systemComponents/userComponents/menu.vue'
 
 export default new Router({
     routes: [
@@ -79,6 +82,20 @@ export default new Router({
                         {
                             path:'/systemSetting/user',
                             component:userManagement,
+                            redirect: '/systemSetting/user/user',
+                            children:[{
+                                path: '/systemSetting/user/user',
+                                // component: () => import('../views/systemSetting.vue') // 用户管理
+                                component: userUser,
+                            },{
+                                path: '/systemSetting/user/role',
+                                // component: () => import('../views/systemSetting.vue') // 用户管理
+                                component: userRole,
+                            },{
+                                path: '/systemSetting/user/menu',
+                                // component: () => import('../views/systemSetting.vue') // 用户管理
+                                component: userMenu,
+                            }]
                            // component: () => import('../views/systemComponents/userManagement.vue') // 用户管理
                         },
                         {
