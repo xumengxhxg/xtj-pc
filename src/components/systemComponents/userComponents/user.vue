@@ -103,7 +103,7 @@
     </div>
 </template>
 <script>
-import { getUserTableList, addTableData } from '@/api/systemConfig'
+import { getUserTableList, addUserTableData } from '@/api/systemConfig'
 export default {
     data(){
         return {
@@ -165,7 +165,7 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                addTableData(this.ruleForm).then((res) => {
+                    addUserTableData(this.ruleForm).then((res) => {
                     if(res.status===200){
                         this.initTableList()
                         this.drawer=false;
