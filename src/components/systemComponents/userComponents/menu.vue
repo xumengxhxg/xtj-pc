@@ -140,9 +140,9 @@ export default {
             drawer:false,
             type:0,// 1添加  还是 2修改
             ruleForm: {
-                name: '',
-                No: '',
-                password:''
+                menuName: '',
+                menuUrl: '',
+                menuType:''
             },
             submitBtn:false,
             rules: {

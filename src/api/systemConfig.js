@@ -55,3 +55,12 @@ export function addMenuTableData(data) {
         data: data
     })
 }
+
+//目录管理请求当前首页表格
+export function getCodeTableList(params) {
+    return request({
+        url: '/dm/all',
+        method: 'get',
+        params: params
+    })
+}
