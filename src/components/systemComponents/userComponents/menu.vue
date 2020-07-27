@@ -96,8 +96,8 @@
                     <el-form-item label="菜单名称" prop="menuName" >
                       <el-input v-model="ruleForm.menuName" style="width: 200px;" ></el-input>
                     </el-form-item>
-                    <el-form-item label="菜单路径" prop="menuUrl">
-                        <el-input v-model="ruleForm.menuUrl" style="width: 200px;"></el-input>
+                    <el-form-item label="菜单路径" prop="menuUrl" >
+                        <el-input v-model="ruleForm.menuUrl" style="width: 200px;" placeholder="url"></el-input>
                     </el-form-item>
                     <el-form-item label="菜单类型" prop="menuType">
                         <el-input v-model="ruleForm.menuType" show-password style="width: 200px;"></el-input>
@@ -115,7 +115,7 @@
             :visible.sync="iconDialog"
             width="30%"
             >
-            <div slot="—" class="dialog-footer" style="border-top: 0.5px solid #ccc;">
+            <div   style="border-top: 0.5px solid #ccc;">
                 这是一段信息
             </div>
         </el-dialog>
