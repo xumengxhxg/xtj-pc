@@ -68,6 +68,9 @@
           >
           <div>
               <el-form    :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" style="padding-left: 10px;">
+                    <el-form-item  prop="name">
+                      <uploadImg @imgUpload="getImgUrl"></uploadImg>
+                  </el-form-item>
                   <el-form-item  prop="name">
                       <div slot="label" style="display: inline-block;">{{indexH}} 名称:</div>
                       <el-input v-model="ruleForm.name" style="width: 350px;" >
@@ -116,6 +119,7 @@
 </template>
 <script>
 import { getCodeTableList, addMenuTableData } from '@/api/systemConfig'
+import uploadImg from '../publicComponents/upload'
 export default {
   data(){
       return {
@@ -158,9 +162,11 @@ export default {
           type:0,// 1添加  还是 2修改
           ruleForm: {
               name: '',
-              No: '',
-              password:''
+              Nail: '',
+              abbreviation:'',
+              type:''
           },
+          imgUrl:'',
           submitBtn:false,
           rules: {
               name: [
@@ -179,6 +185,9 @@ export default {
           iconDialog:false, //图标模态框
       }
   },
+  components:{
+    uploadImg,
+  },
   mounted() {
       this.getCodeTableList() //初始化table
   },
@@ -186,6 +195,12 @@ export default {
       changeData(num, obj){ //添加、修改
        this.type=num;
        this.drawer=true;
+       this.ruleForm= {
+              name: '',
+              Nail: '',
+              abbreviation:'',
+              type:''
+          }
       },
       getCodeTableList(){ //初始化table
           let params={
@@ -234,7 +249,11 @@ export default {
           this.indexH=this.menulist[item.index].text;
           this.indexItem=''+item.index;
           console.log(this.indexItem)
+      },
+      getImgUrl(data){
+        this.imgUrl=data
       }
+
   },
 }
 </script>
