@@ -1,9 +1,46 @@
 <!-- 值班表一览 -->
 <template>
   <div style="background: white; padding: 10px"> 
-    <div>
-      <el-button type="primary">请假</el-button>
-      <span style="padding-left: 20px">{{date}}</span>
+    <div style="display: flex;justify-content:space-between">
+      <span>
+        <el-button type="primary" icon="el-icon-message-solid">请假</el-button>
+        <span style="padding-left: 20px;margin-right: 12px;">{{date}}</span>
+        <span style="font-size: 20px;">
+          <i class="el-icon-refresh" style="color: #409eff;"></i>
+        </span>
+      </span>
+      <span style="display: inline-block;height: 40px;line-height: 40px;font-size: 14px;" class="dataclass">
+          <span >
+           <i class="dot0 dot"></i>
+           <span class="attrname">值班区队: </span>
+           <span class="attrvalue0">三分队</span>
+          </span>
+          <span>
+            <i class="dot1 dot"></i>
+            <span class="attrname">备勤: </span>
+            <span class="attrvalue1">109</span>
+          </span>
+          <span>
+            <i class="dot2 dot"></i>
+            <span class="attrname">出勤: </span>
+            <span class="attrvalue2">104</span>
+          </span>
+          <span>
+            <i class="dot3 dot"></i>
+            <span class="attrname">请假: </span>
+            <span class="attrvalue3">5</span>
+          </span>
+          <span>
+            <i class="dot4 dot"></i>
+            <span class="attrname">休息: </span>
+            <span class="attrvalue4">59</span>
+          </span>
+          <span>
+            <i class="dot5 dot"></i>
+            <span class="attrname">值班: </span>
+            <span class="attrvalue5">16</span>
+          </span>
+      </span>
     </div>
     <div>
       <el-table
@@ -86,7 +123,7 @@ export default {
       case 6: day = '星期六'; break;
       case 0: day = '星期日'; break;
     }
-    this.date = year + '年' + month + '月' + date + '日' + day
+    this.date = year + '年' + month + '月' + date + '日 ' + day
     this.getRotaList()
   },
   methods: {
@@ -119,6 +156,53 @@ export default {
 
 </script>
 
-<style lang='stylus' scoped>
-
+<style  scoped>
+   .dot{
+     display: inline-block;
+     width: 5px;
+     height: 5px;
+     border-radius: 50%;
+   }
+   .dot0{
+    background-color: #409eff;
+   }
+   .attrvalue0{
+     color:#409eff;
+   }
+   .dot1{
+    background-color: #2B5270;
+   }
+   .attrvalue1{
+     color:#2B5270;
+   }
+   .dot2{
+    background-color: #52C41A;
+   }
+   .attrvalue2{
+     color:#52C41A;
+   }
+   .dot3{
+    background-color: #FAAD14;
+   }
+   .attrvalue3{
+     color:#FAAD14;
+   }
+   .dot4{
+    background-color: #CBBEFF;
+   }
+   .attrvalue4{
+     color:#CBBEFF;
+   }
+   .dot5{
+    background-color: #FF33F3;
+   }
+   .attrvalue5{
+     color:#FF33F3;
+   }
+   .attrname{
+     margin: 0 5px;
+   }
+   .dataclass>span{
+     margin-left: 20px;
+   }
 </style>

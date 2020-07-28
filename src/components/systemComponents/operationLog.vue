@@ -8,6 +8,8 @@
             <el-table-column
             prop="date"
             label="序号"
+            type="index"
+            :index="indexMethod"
             >
             </el-table-column>
             <el-table-column
@@ -68,6 +70,9 @@
       handleCurrentChange(value){
         this.tableObj.offset=value;
         this.initTableData()
+      },
+      indexMethod(index){
+        return (this.tableObj.offset-1)*this.tableObj.limit + index+1
       }
     },
   }
