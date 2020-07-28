@@ -170,7 +170,7 @@ export default {
         initTableList(){ //初始化table
             let params=this.searchObj;
             getMenuTableList(params).then((res) => {
-            this.tableObj = res.response
+            // this.tableObj = res.response
           }).catch()
         },
         handleSizeChange(value){ //改变pagesize

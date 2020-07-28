@@ -142,7 +142,7 @@ export default {
             let params=this.searchObj;
             // console.log(this.getUserTableList)
             getRoleTableList(params).then((res) => {
-            this.tableObj = res.response
+            // this.tableObj = res.response
           }).catch()
         },
         handleSizeChange(value){ //改变pagesize
