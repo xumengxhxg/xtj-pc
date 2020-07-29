@@ -3,7 +3,7 @@
   <div style="background: white; padding: 10px"> 
     <div style="display: flex;justify-content:space-between">
       <span>
-        <el-button type="primary" icon="el-icon-message-solid">请假</el-button>
+        <el-button type="primary" icon="el-icon-message-solid" @click="drawer=true">请假</el-button>
         <span style="padding-left: 20px;margin-right: 12px;">{{date}}</span>
         <span style="font-size: 20px;">
           <i class="el-icon-refresh" style="color: #409eff;"></i>
@@ -78,19 +78,58 @@
         <el-form   label-width="80px" :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
             <el-form-item label="" prop="name" >
               <div style="width: 300px;height: 32px;">
-                <div class="leavecase">训练请假</div>
-                <div class="leavecase">出勤请假</div>
+                <div class="leavecase" :class="{'bordershow':casetype===1}" @click="casetype=1">训练请假</div>
+                <div class="leavecase" :class="{'bordershow':casetype===2}" @click="casetype=2">出勤请假</div>
               </div>
             </el-form-item>
-            <el-form-item label="角色备注" prop="remark">
-                <el-input v-model="ruleForm.remark" style="width: 200px;"></el-input>
+            <el-form-item label="请假人" >
+              <el-select v-model="ruleForm.people" placeholder="请选择">
+                <el-option
+                  style="width: 330px;"
+                  v-for="(item,key) in userlist"
+                  :key="key"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
-            <el-form-item label="描述" prop="password">
-                <el-input v-model="ruleForm.desc" show-password style="width: 200px;"></el-input>
+            <el-form-item label="开始时间" >
+              <el-date-picker
+              style="width:200px;margin-right: 20px;"
+                v-model="ruleForm.startDate"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+              <el-select v-model="ruleForm.startTime" style="width: 100px;" placeholder="请选择">
+                <el-option  label="上午" value="1"></el-option>
+                <el-option  label="下午" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="结束时间" >
+                <el-date-picker
+                style="width:200px;margin-right: 20px;"
+                  v-model="ruleForm.endDate"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker> 
+                <el-select v-model="ruleForm.endTime" style="width: 100px;" placeholder="请选择">
+                  <el-option  label="上午" value="1"></el-option>
+                  <el-option  label="下午" value="2"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="备注" >
+              <el-input
+                style="width: 330px;"
+                type="textarea"
+                :autosize="{ minRows: 3, maxRows: 3}"
+                resize="none"
+                placeholder="请输入内容"
+                v-model="textarea">
+              </el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')" :loading="submitBtn">提交</el-button>
-              <el-button>取消</el-button>
+              <el-button @click="drawer=false">取消</el-button>
             </el-form-item>
           </el-form>
     </div>
@@ -105,6 +144,8 @@ export default {
     return {
       date: '',
       drawer:false,//右边抽屉默认不展开
+      casetype:1,//默认训练请假
+      userlist:[],//请假人list
       tableData: [{
           id: '12987122',
           name: '王小虎',
@@ -135,7 +176,21 @@ export default {
           amount1: '539',
           amount2: '4.1',
           amount3: 15
-        }]
+        }],
+        ruleForm: {
+                people: '', //申请人
+                startDate: '',//开始日期
+                startTime:'',//开始时间
+                endDate: '',//结束日期
+                endTime:'',//结束时间
+                textarea:''//备注
+            },
+            submitBtn:false,
+            rules: {
+                // name: [
+                //     { required: true, message: '请输入姓名', trigger: 'blur' },
+                // ]
+                }
     }
   },
   created () {
@@ -179,7 +234,32 @@ export default {
             }
           }
         }
-      }
+      },
+
+      // 表单提交
+      submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    // addRoleTableData(this.ruleForm).then((res) => { //添加数据之后的操作
+                    // if(res.status===200){
+                    //     this.initTableList()
+                    //     this.drawer=false;
+                    // }else{
+                    //     this.$message.error(res.response);
+                    // }
+                    // }).catch()
+                } else {
+                this.submitBtn=true
+                setTimeout(() => {
+                this.submitBtn=false
+                }, 500);
+                return false;
+                }
+            });
+        },
+        resetForm(formName) {
+         this.$refs[formName].resetFields();
+        },
   }
 }
 
@@ -236,10 +316,13 @@ export default {
    }
    .leavecase{
        display: inline-block;
-       width: 50%;
-       border: 1px solid #ccc;
+       width: 49%;
+       border: 1px solid #eee;
        height: 32px;
        line-height: 32px;
        text-align: center;
+   }
+   .bordershow{
+     border: 1px solid #409eff;
    }
 </style>

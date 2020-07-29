@@ -47,7 +47,7 @@
               </el-switch>
             </div>
           </div>
-          <div style="border-top: 1px solid #ccc;margin-top: 24px;padding: 16px; 0">
+          <div style="border-top: 1px solid #ccc;margin-top: 24px;padding: 16px 0;">
             <el-button type="primary" style="float: right;" @click="saveData">保存</el-button>
             <div style="clear: both;"></div>
           </div>
