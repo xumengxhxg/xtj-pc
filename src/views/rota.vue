@@ -67,6 +67,34 @@
       </el-table-column>
     </el-table>
     </div>
+    <!-- 右边抽屉 -->
+    <el-drawer
+    class="drawer_boder"
+    title=""
+    :visible.sync="drawer"
+    :size="'500px'"
+    >
+    <div>
+        <el-form   label-width="80px" :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+            <el-form-item label="" prop="name" >
+              <div style="width: 300px;height: 32px;">
+                <div class="leavecase">训练请假</div>
+                <div class="leavecase">出勤请假</div>
+              </div>
+            </el-form-item>
+            <el-form-item label="角色备注" prop="remark">
+                <el-input v-model="ruleForm.remark" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="描述" prop="password">
+                <el-input v-model="ruleForm.desc" show-password style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('ruleForm')" :loading="submitBtn">提交</el-button>
+              <el-button>取消</el-button>
+            </el-form-item>
+          </el-form>
+    </div>
+</el-drawer>
   </div>
 </template>
 
@@ -76,6 +104,7 @@ export default {
   data () {
     return {
       date: '',
+      drawer:false,//右边抽屉默认不展开
       tableData: [{
           id: '12987122',
           name: '王小虎',
@@ -204,5 +233,13 @@ export default {
    }
    .dataclass>span{
      margin-left: 20px;
+   }
+   .leavecase{
+       display: inline-block;
+       width: 50%;
+       border: 1px solid #ccc;
+       height: 32px;
+       line-height: 32px;
+       text-align: center;
    }
 </style>
