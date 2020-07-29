@@ -83,9 +83,8 @@
               </div>
             </el-form-item>
             <el-form-item label="请假人" >
-              <el-select v-model="ruleForm.people" placeholder="请选择">
+              <el-select v-model="ruleForm.people" style="width: 330px;" placeholder="请选择">
                 <el-option
-                  style="width: 330px;"
                   v-for="(item,key) in userlist"
                   :key="key"
                   :label="item.label"
@@ -124,7 +123,7 @@
                 :autosize="{ minRows: 3, maxRows: 3}"
                 resize="none"
                 placeholder="请输入内容"
-                v-model="textarea">
+                v-model="ruleForm.textarea">
               </el-input>
             </el-form-item>
             <el-form-item>
